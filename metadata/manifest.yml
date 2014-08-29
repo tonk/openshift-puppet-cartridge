@@ -5,7 +5,7 @@ Display-Name: Puppet
 Version: "3.6.2"
 Website: https://github.com/tonk/openshift-puppet-cartridge.git
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: a13m / TonK
+Cartridge-Vendor: a13m
 Categories:
   - service
   - embedded
