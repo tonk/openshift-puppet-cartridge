@@ -81,7 +81,7 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	[agent]
 	${T}# The file in which puppetd stores a list of the classes
 	${T}# associated with the retrieved configuration. Can be loaded in
-	${T}# the separate ``puppet`` executable using the ``--loadclasses``
+	${T}# the separate 'puppet' executable using the '--loadclasses'
 	${T}# option.
 	${T}# The default value is '\$confdir/classes.txt'.
 	${T}classfile = \$vardir/classes.txt
@@ -90,4 +90,19 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	${T}# extension indicating the cache format is added automatically.
 	${T}# The default value is '\$confdir/localconfig'.
 	${T}localconfig = $\vardir/localconfig
+@EOF
+
+T="  "
+cat <<- @EOF > ${PUPPET_CFG_DIR}/environments/production/manifests/site.pp
+	# This is a VERY small example of a Puppet manifest
+	# To do something realy usefull with Puppet, create better
+	# manifests and modules.
+	#
+	# See: https://docs.puppetlabs.com
+
+	file { "/tmp/apples" :
+	${T}ensure  => present,
+	${T}mode    => 0644,
+	${T}content => 'This is the best file I have ever seen ;-)',
+	}
 @EOF
