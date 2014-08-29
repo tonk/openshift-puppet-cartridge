@@ -10,10 +10,11 @@ pid=${PUPPET_DIR}/var/run/puppet.pid
 name="puppet master"
 
 status() {
-    client_result ${pwd}
     if [ -f ${pid} ] && ( kill -0 $(< ${pid}) )
     then
-        client_result "${name} is running"
+        echo "${name} is running"
+    else
+        echo "${name} is not running"
     fi
 }
 
