@@ -23,7 +23,7 @@ done
 mkdir -p ${OPENSHIFT_DATA_DIR}/tmp
 pushd ${OPENSHIFT_DATA_DIR}/tmp
 
-# Create the Puppet confiuration tree
+# Create the Puppet configuration tree
 export PUPPET_CFG_DIR="${OPENSHIFT_HOMEDIR}/.puppet"
 mkdir -p ${PUPPET_CFG_DIR}
 mkdir -p ${PUPPET_CFG_DIR}/manifests
@@ -47,6 +47,10 @@ export RUBYLIB=${PUPPET_DIR}/bin//puppet/lib
 T="    "
 cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	[main]
+	${T}# Only listen on this address.
+	${T}# This enables multiple masters.
+	${T}bindaddress = ${OPENSHIFT_PUPPET_IP}
+
 	${T}# Puppet vardir.
 	${T}vardir = ${PUPPET_DIR}/var
 
