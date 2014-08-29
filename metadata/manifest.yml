@@ -1,5 +1,6 @@
 Name: puppet
 Cartridge-Short-Name: puppet
+Source-Url: https://github.com/tonk/openshift-puppet-cartridge/archive/master.zip
 Display-Name: Puppet
 Version: "3.6.2"
 Website: https://github.com/tonk/openshift-puppet-cartridge.git
