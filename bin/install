@@ -53,6 +53,9 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	${T}# Use this host (could be different from Puppet)
 	${T}server = $(hostname)
 
+	${T}# Alternative names
+	${T}certdnsnames = "$(hostname):puppet:puppet.$(dnsdomainname)"
+
 	${T}# Puppet vardir.
 	${T}vardir = ${PUPPET_DIR}/var
 
