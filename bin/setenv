@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Set environment
+export PUPPET_DIR=${HOME}/puppet
+export PUPPET_CFG_DIR="${HOME}/.puppet"
+export PATH=${PUPPET_DIR}/bin/puppet/bin:${PUPPET_DIR}/bin/facter/bin:${PATH}
+export RUBYLIB=${PUPPET_DIR}/bin/puppet/lib
