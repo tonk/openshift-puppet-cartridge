@@ -1,10 +1,10 @@
 Name: puppet
 Cartridge-Short-Name: puppet
 Display-Name: Puppet
-Version: "2.7.21"
-Website: https://github.com/a13m/openshift-puppet-cartridge
+Version: "3.6.2"
+Website: https://github.com/tonk/openshift-puppet-cartridge.git
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: a13m
+Cartridge-Vendor: a13m / TonK
 Categories:
   - service
   - embedded

@@ -16,10 +16,12 @@ function update() {
 }
 
 function start() {
-    if ! [ -f $pid ]; then
-        echo
+    if ! [ -f $pid ]
+    then
+        echo "Starting puppet"
         ret=$?
-        if [ $ret -ne 0 ]; then
+        if [ $ret -ne 0 ]
+	then
             echo "$name failed to start - $ret" 1>&2
             return $ret
         fi

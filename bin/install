@@ -8,51 +8,39 @@ esac
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-FACTER_VERSION=1.7.2
-PUPPET_VERSION=2.7.21
+FACTER_VERSION="2.2.0"
+PUPPET_VERSION="3.6.2"
+BASE="https://downloads.puppetlabs.com"
 
 PUPPET_DIR=$OPENSHIFT_PUPPET_DIR
 
-for x in bin lib man log etc var; do 
-  if [ ! -d $PUPPET_DIR/$x ]; then
+for x in bin lib man log etc var
+do
+  if [ ! -d $PUPPET_DIR/$x ]
+  then
     mkdir -p $PUPPET_DIR/$x
   fi
 done
 
-if [ ! -d $OPENSHIFT_DATA_DIR/tmp ]; then
+if [ ! -d $OPENSHIFT_DATA_DIR/tmp ]
+then
   mkdir $OPENSHIFT_DATA_DIR/tmp
 fi
 pushd $OPENSHIFT_DATA_DIR/tmp
 
-curl -L -o ${FACTER_VERSION}.tar.gz https://github.com/puppetlabs/facter/archive/${FACTER_VERSION}.tar.gz
+curl -L -o ${FACTER_VERSION}.tar.gz ${BASE}/facter/facter-${FACTER_VERSION}.tar.gz
 tar xzf ${FACTER_VERSION}.tar.gz
-curl -L -o ${PUPPET_VERSION}.tar.gz https://github.com/puppetlabs/puppet/archive/${PUPPET_VERSION}.tar.gz;
+curl -L -o ${PUPPET_VERSION}.tar.gz ${BASE}/puppet/puppet-${PUPPET_VERSION}.tar.gz
 tar xzf ${PUPPET_VERSION}.tar.gz
-
-pushd facter-${FACTER_VERSION}
-patch -p1 < $OPENSHIFT_PUPPET_DIR/patches/facter-fixes.patch
-./install.rb --bindir=$PUPPET_DIR/bin \
-             --sitelibdir=$PUPPET_DIR/lib \
-             --mandir=$PUPPET_DIR/man
-popd
-
-pushd puppet-${PUPPET_VERSION}
-patch -p1 < $OPENSHIFT_PUPPET_DIR/patches/puppet-fixes.patch
-./install.rb --bindir=$PUPPET_DIR/bin \
-             --sitelibdir=$PUPPET_DIR/lib \
-             --mandir=$PUPPET_DIR/man \
-             --sbindir=$PUPPET_DIR/sbin \
-             --configdir=$PUPPET_DIR/etc \
-popd
 
 popd
 
 mkdir $OPENSHIFT_HOMEDIR/.puppet
 export PATH=$PUPPET_DIR/bin:$PATH
 export RUBYLIB=$PUPPET_DIR/lib
-puppet --vardir=$OPENSHIFT_DATA_DIR/puppet \
-       --ssldir=$OPENSHIFT_DATA_DIR/puppet/ssl \
-       --templatedir=$OPENSHIFT_REPO_DIR/.openshift/puppet/templates \
-       --confdir=$OPENSHIFT_REPO_DIR/.openshift/puppet \
+puppet --vardir=$OPENSHIFT_DATA_DIR/puppet				\
+       --ssldir=$OPENSHIFT_DATA_DIR/puppet/ssl				\
+       --templatedir=$OPENSHIFT_REPO_DIR/.openshift/puppet/templates	\
+       --confdir=$OPENSHIFT_REPO_DIR/.openshift/puppet			\
        --genconfig > $OPENSHIFT_HOMEDIR/.puppet/puppet.conf
 
