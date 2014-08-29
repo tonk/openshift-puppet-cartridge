@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 # XXX: Version is currently ignored
 case "$1" in
   -v|--version)
