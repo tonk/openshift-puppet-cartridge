@@ -37,7 +37,7 @@ tar xvzf ${PUPPET_VERSION}.tar.gz
 mv puppet-${PUPPET_VERSION} puppet
 
 popd
-
+exit 0
 mkdir $OPENSHIFT_HOMEDIR/.puppet
 export PATH=$PUPPET_DIR/bin:$PATH
 export RUBYLIB=$PUPPET_DIR/lib
