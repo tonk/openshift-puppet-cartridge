@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Set envionment
-source ${OPENSHIFT_CARTRIDGE_SDK_BASH}
-export PUPPET_DIR=${OPENSHIFT_PUPPET_DIR}
-export PUPPET_CFG_DIR="${OPENSHIFT_HOMEDIR}/.puppet"
+export PUPPET_DIR=${HOME}/puppet
+export PUPPET_CFG_DIR="${HOME}/.puppet"
 export PATH=${PUPPET_DIR}/bin/puppet/bin:${PUPPET_DIR}/bin/facter/bin:${PATH}
-export RUBYLIB=${PUPPET_DIR}/bin//puppet/lib
+export RUBYLIB=${PUPPET_DIR}/bin/puppet/lib
 
 pid=${PUPPET_DIR}/var/run/puppet.pid
 name="puppet master"
@@ -22,15 +21,13 @@ start() {
     if [[ ! -f ${pid} ]]
     then
         echo "Starting puppet master"
-	puppet master --config ${PUPPET_CFG_DIR}/puppet.conf &
+	puppet master --pidfile ${pid} --config ${PUPPET_CFG_DIR}/puppet.conf &
         rc=${?}
-        p=${!}
         if [[ ${rc} -ne 0 ]]
 	then
             echo "${name} failed to start - ${rc}" 1>&2
             return ${rc}
         fi
-        echo ${p} > ${pid}
     fi
 }
 
