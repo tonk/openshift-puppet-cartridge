@@ -44,40 +44,41 @@ popd
 export PATH=${PUPPET_DIR}/bin/puppet/bin:${PUPPET_DIR}/bin/facter/bin:${PATH}
 export RUBYLIB=${PUPPET_DIR}/bin//puppet/lib
 
+T="    "
 cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	[main]
-	# Puppet vardir.
-	vardir = ${PUPPET_DIR}/var
+	${T}# Puppet vardir.
+	${T}vardir = ${PUPPET_DIR}/var
 
-	# The Puppet log directory.
-	# The default value is '\$vardir/log'.
-	logdir = \$vardir/log
+	${T}# The Puppet log directory.
+	${T}# The default value is '\$vardir/log'.
+	${T}logdir = \$vardir/log
 
-	# Stop caching (almost) in this test environment
-	environment_timeout = 1m
+	${T}# Stop caching (almost) in this test environment
+	${T}environment_timeout = 1m
 
-	# Where Puppet PID files are kept.
-	# The default value is '\$vardir/run'.
-	rundir = \$vardir/run
+	${T}# Where Puppet PID files are kept.
+	${T}# The default value is '\$vardir/run'.
+	${T}rundir = \$vardir/run
 
-	# Where SSL certificates are kept.
-	# The default value is '\$vardir/ssl'.
-	ssldir = \$vardir/ssl
+	${T}# Where SSL certificates are kept.
+	${T}# The default value is '\$vardir/ssl'.
+	${T}ssldir = \$vardir/ssl
 
-	# Added for environments
-	confdir         = ${OPENSHIFT_HOMEDIR}/.puppet
-	environmentpath = \$confdir/environments
+	${T}# Added for environments
+	${T}confdir         = ${OPENSHIFT_HOMEDIR}/.puppet
+	${T}environmentpath = \$confdir/environments
 
 	[agent]
-	# The file in which puppetd stores a list of the classes
-	# associated with the retrieved configuration. Can be loaded in
-	# the separate ``puppet`` executable using the ``--loadclasses``
-	# option.
-	# The default value is '\$confdir/classes.txt'.
-	classfile = \$vardir/classes.txt
+	${T}# The file in which puppetd stores a list of the classes
+	${T}# associated with the retrieved configuration. Can be loaded in
+	${T}# the separate ``puppet`` executable using the ``--loadclasses``
+	${T}# option.
+	${T}# The default value is '\$confdir/classes.txt'.
+	${T}classfile = \$vardir/classes.txt
 
-	# Where puppetd caches the local configuration.  An
-	# extension indicating the cache format is added automatically.
-	# The default value is '\$confdir/localconfig'.
-	localconfig = $\vardir/localconfig
+	${T}# Where puppetd caches the local configuration.  An
+	${T}# extension indicating the cache format is added automatically.
+	${T}# The default value is '\$confdir/localconfig'.
+	${T}localconfig = $\vardir/localconfig
 @EOF

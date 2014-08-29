@@ -5,13 +5,19 @@ Display-Name: Puppet
 Version: "3.6.2"
 Website: https://github.com/tonk/openshift-puppet-cartridge.git
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: a13m
+Cartridge-Vendor: tonk
 Categories:
   - service
   - embedded
 Provides:
   - puppet
+Endpoints:
+  - Private-IP-Name: IP
+    Private-Port-Name: PRIV_PUPPET_PORT
+    Private-Port: 8140
+    Public-Port-Name: PUP_PUPPET_PORT
+    Protocols:
+      - tcp
 Scaling:
   Min: 1
   Max: -1
-
