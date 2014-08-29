@@ -3,47 +3,81 @@ set -x
 # XXX: Version is currently ignored
 case "$1" in
   -v|--version)
-    version="$2"
+    version="${2}"
 esac
 
-source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source ${OPENSHIFT_CARTRIDGE_SDK_BASH}
 
 FACTER_VERSION="2.2.0"
 PUPPET_VERSION="3.6.2"
 BASE="https://downloads.puppetlabs.com"
 
-PUPPET_DIR=$OPENSHIFT_PUPPET_DIR
+PUPPET_DIR=${OPENSHIFT_PUPPET_DIR}
 
-for x in bin lib man log etc var
+# Create the Puppet run tree
+mkdir -p ${PUPPET_DIR}/bin ${PUPPET_DIR}/var
+for x in log ssl run
 do
-  if [ ! -d $PUPPET_DIR/$x ]
-  then
-    mkdir -p $PUPPET_DIR/$x
-  fi
+    mkdir -p ${PUPPET_DIR}/var/${x}
 done
+mkdir -p ${OPENSHIFT_DATA_DIR}/tmp
+pushd ${OPENSHIFT_DATA_DIR}/tmp
 
-if [ ! -d $OPENSHIFT_DATA_DIR/tmp ]
-then
-  mkdir $OPENSHIFT_DATA_DIR/tmp
-fi
-pushd $OPENSHIFT_DATA_DIR/tmp
+# Create the Puppet confiuration tree
+export PUPPET_CFG_DIR="${OPENSHIFT_HOMEDIR}/.puppet"
+mkdir -p ${PUPPET_CFG_DIR}
+mkdir -p ${PUPPET_CFG_DIR}/manifests
+mkdir -p ${PUPPET_CFG_DIR}/modules
+mkdir -p ${PUPPET_CFG_DIR}/environments/production/manifests
+mkdir -p ${PUPPET_CFG_DIR}/environments/production/modules
 
 pwd
 curl -L -o ${FACTER_VERSION}.tar.gz ${BASE}/facter/facter-${FACTER_VERSION}.tar.gz
 tar xvzf ${FACTER_VERSION}.tar.gz
-mv facter-${FACTER_VERSION} facter
+mv facter-${FACTER_VERSION} ${PUPPET_DIR}/bin/facter
 curl -L -o ${PUPPET_VERSION}.tar.gz ${BASE}/puppet/puppet-${PUPPET_VERSION}.tar.gz
 tar xvzf ${PUPPET_VERSION}.tar.gz
-mv puppet-${PUPPET_VERSION} puppet
+mv puppet-${PUPPET_VERSION} ${PUPPET_DIR}/bin/puppet
 
 popd
-exit 0
-mkdir $OPENSHIFT_HOMEDIR/.puppet
-export PATH=$PUPPET_DIR/bin:$PATH
-export RUBYLIB=$PUPPET_DIR/lib
-puppet --vardir=$OPENSHIFT_DATA_DIR/puppet				\
-       --ssldir=$OPENSHIFT_DATA_DIR/puppet/ssl				\
-       --templatedir=$OPENSHIFT_REPO_DIR/.openshift/puppet/templates	\
-       --confdir=$OPENSHIFT_REPO_DIR/.openshift/puppet			\
-       --genconfig > $OPENSHIFT_HOMEDIR/.puppet/puppet.conf
 
+export PATH=${PUPPET_DIR}/bin/puppet/bin:${PUPPET_DIR}/bin/facter/bin:${PATH}
+export RUBYLIB=${PUPPET_DIR}/bin//puppet/lib
+
+cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
+	[main]
+	# Puppet vardir.
+	vardir = ${PUPPET_DIR}/var
+
+	# The Puppet log directory.
+	# The default value is '\$vardir/log'.
+	logdir = \$vardir/log
+
+	# Stop caching (almost) in this test environment
+	environment_timeout = 1m
+
+	# Where Puppet PID files are kept.
+	# The default value is '\$vardir/run'.
+	rundir = \$vardir/run
+
+	# Where SSL certificates are kept.
+	# The default value is '\$vardir/ssl'.
+	ssldir = \$vardir/ssl
+
+	# Added for environments
+	confdir         = ${OPENSHIFT_HOMEDIR}/.puppet
+	environmentpath = \$confdir/environments
+
+	[agent]
+	# The file in which puppetd stores a list of the classes
+	# associated with the retrieved configuration. Can be loaded in
+	# the separate ``puppet`` executable using the ``--loadclasses``
+	# option.
+	# The default value is '\$confdir/classes.txt'.
+	classfile = \$vardir/classes.txt
+
+	# Where puppetd caches the local configuration.  An
+	# extension indicating the cache format is added automatically.
+	# The default value is '\$confdir/localconfig'.
+	localconfig = $\vardir/localconfig
+@EOF
