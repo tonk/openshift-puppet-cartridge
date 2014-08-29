@@ -30,8 +30,10 @@ pushd $OPENSHIFT_DATA_DIR/tmp
 
 curl -L -o ${FACTER_VERSION}.tar.gz ${BASE}/facter/facter-${FACTER_VERSION}.tar.gz
 tar xzf ${FACTER_VERSION}.tar.gz
+mv facter-${FACTER_VERSION} facter
 curl -L -o ${PUPPET_VERSION}.tar.gz ${BASE}/puppet/puppet-${PUPPET_VERSION}.tar.gz
 tar xzf ${PUPPET_VERSION}.tar.gz
+mv puppet-${FACTER_VERSION} puppet
 
 popd
 
