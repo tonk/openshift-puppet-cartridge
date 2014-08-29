@@ -48,7 +48,7 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	[main]
 	${T}# Only listen on this address.
 	${T}# This enables multiple masters.
-	${T}bindaddress = ${OPENSHIFT_PUPPET_IP}
+	${T}# bindaddress = ${OPENSHIFT_PUPPET_IP}
 
 	${T}# Use this host (could be different from Puppet)
 	${T}server = $(hostname)
