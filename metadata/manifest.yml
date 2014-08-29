@@ -16,6 +16,7 @@ Endpoints:
     Private-Port-Name: PRIV_PUPPET_PORT
     Private-Port: 8140
     Public-Port-Name: PUP_PUPPET_PORT
+    Public-Port: 8140
     Private-PortProtocols:
       - tcp
     primary: true
