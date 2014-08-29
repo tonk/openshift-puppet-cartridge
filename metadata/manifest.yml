@@ -19,7 +19,6 @@ Endpoints:
     Public-Port: 8140
     Private-PortProtocols:
       - tcp
-    primary: true
 Scaling:
   Min: 1
   Max: -1
