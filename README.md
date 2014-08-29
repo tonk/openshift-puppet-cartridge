@@ -9,16 +9,16 @@ See bin/install for the options used to generate puppet.conf
 ## Suggested usage
 
 * `rhc cartridge add "http://<raw manifest>" -a _your-app-name_`
-* Create `~/puppet/environments/production/manifests/site.pp`.
+* Create `~/.puppet/environments/production/manifests/site.pp`.
 For example:
 
 ```
 file { 'testfile' :
-      path    => '/tmp/testfile',
-      ensure  => present,
-      mode    => 0640,
-      content => 'I am a test file.',
-    }
+  path    => '/tmp/testfile',
+  ensure  => present,
+  mode    => 0640,
+  content => 'I am a test file.',
+}
 ```
 
 * In .openshift/action_hooks/deploy in your app repository, add the following line:

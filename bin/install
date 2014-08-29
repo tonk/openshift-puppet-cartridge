@@ -54,7 +54,7 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/puppet.conf
 	${T}server = $(hostname)
 
 	${T}# Alternative names
-	${T}certdnsnames = "$(hostname):puppet:puppet.$(dnsdomainname)"
+	${T}# certdnsnames = "$(hostname):puppet:puppet.$(dnsdomainname)"
 
 	${T}# Puppet vardir.
 	${T}vardir = ${PUPPET_DIR}/var
@@ -106,3 +106,10 @@ cat <<- @EOF > ${PUPPET_CFG_DIR}/environments/production/manifests/site.pp
 	${T}content => 'This is the best file I have ever seen ;-)',
 	}
 @EOF
+
+# Install extra modules
+puppet module install puppetlabs-stdlib
+puppet module install puppetlabs-concat
+puppet module install rharrison-lokkit
+puppet module install saz-sudo
+puppet module install maestrodev-wget
