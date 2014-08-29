@@ -1,23 +1,23 @@
 ---
-locked_files:
-- ~/puppet/
-- bin/
-- bin/*
-- custom/
-- custom/*
-- env/
-- env/*
-- etc/
-- lib/
-- lib/*
-- man/
-- man/*
-- metadata/
-- metadata/*
-- patches/
-- patches/*
-- sbin/
-- sbin/*
+#locked_files:
+#- ~/puppet/
+#- bin/
+#- bin/*
+#- custom/
+#- custom/*
+#- env/
+#- env/*
+#- etc/
+#- lib/
+#- lib/*
+#- man/
+#- man/*
+#- metadata/
+#- metadata/*
+#- patches/
+#- patches/*
+#- sbin/
+#- sbin/*
 processed_templates:
 - '**/*.erb'
 
