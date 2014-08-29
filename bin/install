@@ -34,7 +34,7 @@ tar xvzf ${FACTER_VERSION}.tar.gz
 mv facter-${FACTER_VERSION} facter
 curl -L -o ${PUPPET_VERSION}.tar.gz ${BASE}/puppet/puppet-${PUPPET_VERSION}.tar.gz
 tar xvzf ${PUPPET_VERSION}.tar.gz
-mv puppet-${FACTER_VERSION} puppet
+mv puppet-${PUPPET_VERSION} puppet
 
 popd
 
